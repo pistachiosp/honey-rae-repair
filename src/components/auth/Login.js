@@ -9,20 +9,26 @@ export const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault()
-
+//when the button is clicked
+//makes a fetch call to json server looks at user collection and finds the matching email in state
         return fetch(`http://localhost:8088/users?email=${email}`)
+        //get response parse json and convert back to js array
             .then(res => res.json())
             .then(foundUsers => {
+                //if the length of the foundUsers js array has one item
                 if (foundUsers.length === 1) {
+                    //the store the user found at index 0 in a variable
                     const user = foundUsers[0]
+                    //set user object in local storage
                     localStorage.setItem("honey_user", JSON.stringify({
                         id: user.id,
                         staff: user.isStaff
                     }))
-
+                    //then navigate back to the root of the application
                     navigate("/")
                 }
                 else {
+                    //if not valid, then throw error alert
                     window.alert("Invalid login")
                 }
             })
